@@ -1,0 +1,6 @@
+create table teacher (openID VARCHAR(50), teacherID int not null AUTO_INCREMENT, session VARCHAR(50), rdSession VARCHAR(50), nickName VARCHAR(10), subject VARCHAR(5), phoneNumber int, email VARCHAR(30), school VARCHAR(20), country VARCHAR(5), province VARCHAR(5), city VARCHAR(5), PRIMARY KEY(teacherID));
+create table teaches (teacherID int, classID int， PRIMARY KEY(classID));
+create table class (classID int, studentID int, PRIMARY KEY(classID, studentID));
+create table student (studentID int, name VARCHAR(20), phoneNumber int, school VARCHAR(20), country VARCHAR(5), province VARCHAR(5), city VARCHAR(5), PRIMARY KEY(studentID));
+create table s_homework (date DATETIME, studentID int, answer VARCHAR(100), PRIMARY KEY(date, studentID));
+create table t_homework (date DATETIME, teacherID int, answer VARCHAR(100), classID int, deadline DATETIME,int cutoff, PRIMARY KEY(date, teacherID));
