@@ -5,7 +5,7 @@ public class Teacher {
   int teacherID;
   String nickName;
   String subject;
-  int phoneNumber;
+  String phoneNumber;
   String email;
   String school;
   String country;
@@ -13,7 +13,7 @@ public class Teacher {
   String city;
 
   public Teacher(String openID, int teacherID, String nickName, String subject,
-      int phoneNumber, String email, String school, String country,
+      String phoneNumber, String email, String school, String country,
       String province, String city) {
     this.openID = openID;
     this.teacherID = teacherID;
@@ -26,6 +26,7 @@ public class Teacher {
     this.province = province;
     this.city = city;
   }
+
 
   public String getOpenID() {
     return openID;
@@ -59,11 +60,11 @@ public class Teacher {
     this.subject = subject;
   }
 
-  public int getPhoneNumber() {
+  public String getPhoneNumber() {
     return phoneNumber;
   }
 
-  public void setPhoneNumber(int phoneNumber) {
+  public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
 

@@ -42,13 +42,54 @@ public class TeacherDao {
    * @return 娉ㄥ唽
    */
   public boolean register(String openID, int teacherID, String session,
-      String rdSession, String nickName, String subject, int phoneNumber,
+      String rdSession, String nickName, String subject, String phoneNumber,
       String email, String school, String country, String province,
       String city) {
     String sql = "insert into teacher values ('" + openID + "', " + teacherID
         + ", '" + session + "', '" + rdSession + "', '" + nickName + "', '"
         + subject + "', " + phoneNumber + ", '" + email + "', '" + school
         + "', '" + country + "', '" + province + "', '" + city + "');";
+    try {
+      db.execute(sql);
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      // Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE,
+      // null, ex);
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * BY:WTJ 此处有一些问题，
+   * teacherID应该是自增的，插入一行自己增加一行，不需要外部输入
+   * 然后由于我尚未知道数据库里面数据的排列顺序，所以我设置了数据库插入列和插入顺序无关的插入方式。 
+   * 此处修改了Insert语句
+   * 
+   * 功能：注册信息插入
+   * 
+   * @param openID
+   * @param session
+   * @param rdSession
+   * @param nickName
+   * @param subject
+   * @param phoneNumber
+   * @param email
+   * @param school
+   * @param country
+   * @param province
+   * @param city
+   * @return
+   */
+  public boolean register(String openID, String session, String rdSession,
+      String nickName, String subject, String phoneNumber, String email,
+      String school, String country, String province, String city) {
+    String sql =
+        "insert into teacher(openID,session,rdSession,nickName,subject,phoneNumber,email,"
+            + "school,country,province,city) values ('" + openID + ", '"
+            + session + "', '" + rdSession + "', '" + nickName + "', '"
+            + subject + "', " + phoneNumber + ", '" + email + "', '" + school
+            + "', '" + country + "', '" + province + "', '" + city + "');";
     try {
       db.execute(sql);
     } catch (SQLException ex) {
@@ -99,7 +140,7 @@ public class TeacherDao {
         String openID = rs.getString("openID");
         String nickName = rs.getString("nickName");
         String subject = rs.getString("subject");
-        int phoneNumber = rs.getInt("phoneNumber");
+        String phoneNumber = rs.getString("phoneNumber");
         String email = rs.getString("email");
         String school = rs.getString("school");
         String country = rs.getString("country");
