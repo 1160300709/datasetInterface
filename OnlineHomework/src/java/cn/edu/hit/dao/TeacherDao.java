@@ -86,9 +86,9 @@ public class TeacherDao {
       String school, String country, String province, String city) {
     String sql =
         "insert into teacher(openID,session,rdSession,nickName,subject,phoneNumber,email,"
-            + "school,country,province,city) values ('" + openID + ", '"
+            + "school,country,province,city) values('" + openID + "', '"
             + session + "', '" + rdSession + "', '" + nickName + "', '"
-            + subject + "', " + phoneNumber + ", '" + email + "', '" + school
+            + subject + "', '" + phoneNumber + "', '" + email + "', '" + school
             + "', '" + country + "', '" + province + "', '" + city + "');";
     try {
       db.execute(sql);
