@@ -23,23 +23,24 @@ public class TeacherDao {
   }
 
   /**
-   * 妫�鏌ヨ鑰佸笀鏄惁娉ㄥ唽杩�
+   * 检查该老师是否注册过
    * 
-   * @param openID 鐢ㄤ互鍒ゆ柇鏁欏笀鏄惁娉ㄥ唽杩�
-   * @return 璇ユ暀甯堟槸鍚︽敞鍐岃繃
+   * @param openID
+   *            用以判断教师是否注册过
+   * @return 该教师是否注册过
    */
-  public boolean chechRegistered(String openID) throws SQLException {
+  public boolean chechTeacherRegistered(String openID) throws SQLException {
     String sql =
         "select teacherID from teacher where openID = '" + openID + "';";
     ResultSet result = db.executeQuery(sql);
-    // 濡傛灉缁撴灉涓虹┖锛屽皢娌℃湁next锛岃繑鍥瀎alse
+ // 如果结果为空，将没有next，返回false
     return result.next();
   }
 
   /**
-   * 娉ㄥ唽鏁欏笀鐨勪俊鎭�
+   * 注册教师的信息
    * 
-   * @return 娉ㄥ唽
+   * @return 注册
    */
   public boolean register(String openID, int teacherID, String session,
       String rdSession, String nickName, String subject, String phoneNumber,
@@ -68,17 +69,6 @@ public class TeacherDao {
    * 
    * 功能：注册信息插入
    * 
-   * @param openID
-   * @param session
-   * @param rdSession
-   * @param nickName
-   * @param subject
-   * @param phoneNumber
-   * @param email
-   * @param school
-   * @param country
-   * @param province
-   * @param city
    * @return
    */
   public boolean register(String openID, String session, String rdSession,
@@ -102,10 +92,11 @@ public class TeacherDao {
   }
 
   /**
-   * 鏇存柊session鍜宺dSession
+   * 更新session和rdSession
    * 
-   * @param teacherID 瑕佹洿鏂扮殑鏁欏笀鐨刬d
-   * @return 杩斿洖鏄惁鏇存柊鎴愬姛
+   * @param teacherID
+   *            要更新的教师的id
+   * @return 返回是否更新成功
    */
   public boolean refreshSession(String teacherID, String session,
       String rdSession) {
@@ -126,10 +117,9 @@ public class TeacherDao {
   }
 
   /**
-   * 寰楀埌鏁欏笀鎵�鏈変俊鎭�
-   * 
-   * @param teacherID 閫氳繃鏁欏笀ID寰楀埌淇℃伅
-   * @return Teacher绫�
+   * 得到教师所有信息
+   * @param teacherID 通过教师ID得到信息
+   * @return Teacher类
    */
   public Teacher getInfo(int teacherID) {
     Teacher teacher = null;
@@ -160,11 +150,13 @@ public class TeacherDao {
   }
 
   /**
-   * 寰楀埌褰撳墠璇ヨ�佸笀涓鸿鐝骇甯冪疆鐨勬墍鏈変綔涓氾紙鍖呮嫭瀹屾垚浠ュ強鏈畬鎴愶級
+   * 得到当前该老师为该班级布置的所有作业（包括完成以及未完成）
    * 
-   * @param classID 鐝骇ID
-   * @param teacherID 鏁欏笀ID
-   * @return 浣滀笟淇℃伅
+   * @param classID
+   *            班级ID
+   * @param teacherID
+   *            教师ID
+   * @return 作业信息
    */
   public List<Homework> currentHomework(int classID, int teacherID)
       throws SQLException {
@@ -186,11 +178,13 @@ public class TeacherDao {
   }
 
   /**
-   * 妫�鏌ヤ綔涓氾紝鍚屾椂杩斿洖鏁欏笀鍙戦�佺殑鏍囧噯绛旀锛屼互鍙婂鐢熷～鍐欑殑绛旀
+   * 检查作业，同时返回教师发送的标准答案，以及学生填写的答案
    * 
-   * @param date 绛旀鐨勫彂甯冩椂闂�
-   * @param teacherID 鍙戝竷绛旀鏁欏笀鐨処D
-   * @return 杩斿洖Answer锛屽寘鍚爣鍑嗙瓟妗堬紝 瀛︾敓ID浠ュ強瀵瑰簲鐨勭瓟妗�
+   * @param date
+   *            答案的发布时间
+   * @param teacherID
+   *            发布答案教师的ID
+   * @return 返回Answer，包含标准答案， 学生ID以及对应的答案
    */
   public Answer checkAnswer(Timestamp date, int teacherID) throws SQLException {
     String standardAnswer = "";
@@ -215,10 +209,11 @@ public class TeacherDao {
   }
 
   /**
-   * 鑾峰彇鏁欏笀鎵�鏁欏鐨勭彮绾х殑ID
+   * 获取教师所教导的班级的ID
    * 
-   * @param teacherID 瑕佹煡璇㈢殑鏁欏笀鐨処D
-   * @return 杩斿洖涓�涓狶ist淇℃伅锛屽瓨鍌ㄦ暀甯堝綋鍓嶆暀鎺堢殑鎵�鏈夌彮鍙�
+   * @param teacherID
+   *            要查询的教师的ID
+   * @return 返回一个List信息，存储教师当前教授的所有班号
    */
   public List<Integer> getClassID(int teacherID) {
     List<Integer> result = new ArrayList<>();
@@ -240,10 +235,11 @@ public class TeacherDao {
   }
 
   /**
-   * 杩斿洖鏈氦浣滀笟鐨勫悓瀛︾殑鍚嶅崟
+   * 返回未交作业的同学的名单
    * 
-   * @param date 瑕佹彁閱掔殑浣滀笟
-   * @return 鏈笂浜や綔涓氱殑瀛︾敓鐨処D
+   * @param date
+   *            要提醒的作业
+   * @return 未上交作业的学生的ID
    */
   public List<Integer> studentsNotHandingInHomework(Timestamp date) {
     List<Integer> result = new ArrayList<>();

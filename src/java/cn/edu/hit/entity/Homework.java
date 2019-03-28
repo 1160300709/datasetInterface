@@ -9,9 +9,8 @@ public class Homework {
 	private int cutoff;
 	
 	/**
-	 * 构造方法，这里特别要说明的是cutoff属性
-	 * 该属性表明该作业是否已截止
-	 * @param cutoff  0：未截止；1：已截止
+	 *�洢Homework��������Ϣ
+	 * @param cutoff  0δ��ֹ     1�Ѿ���ֹ
 	 */
 	public Homework(Timestamp date, Timestamp deadline, String answer, int cutoff) {
 		this.date = date;
