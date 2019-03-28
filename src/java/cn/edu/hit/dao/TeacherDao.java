@@ -33,7 +33,7 @@ public class TeacherDao {
     String sql =
         "select teacherID from teacher where openID = '" + openID + "';";
     ResultSet result = db.executeQuery(sql);
- // 如果结果为空，将没有next，返回false
+    // 如果结果为空，将没有next，返回false
     return result.next();
   }
 
@@ -61,6 +61,8 @@ public class TeacherDao {
     return true;
   }
 
+
+
   /**
    * BY:WTJ 此处有一些问题，
    * teacherID应该是自增的，插入一行自己增加一行，不需要外部输入
@@ -69,6 +71,17 @@ public class TeacherDao {
    * 
    * 功能：注册信息插入
    * 
+   * @param openID
+   * @param session
+   * @param rdSession
+   * @param nickName
+   * @param subject
+   * @param phoneNumber
+   * @param email
+   * @param school
+   * @param country
+   * @param province
+   * @param city
    * @return
    */
   public boolean register(String openID, String session, String rdSession,
@@ -80,6 +93,61 @@ public class TeacherDao {
             + session + "', '" + rdSession + "', '" + nickName + "', '"
             + subject + "', '" + phoneNumber + "', '" + email + "', '" + school
             + "', '" + country + "', '" + province + "', '" + city + "');";
+    try {
+      db.execute(sql);
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      // Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE,
+      // null, ex);
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * byWTJ注册基础信息,也就是微信给的那些和openid和rdseesion等
+   *
+   * @param openID
+   * @param session
+   * @param rdSession
+   * @param nickName
+   * @param country
+   * @param province
+   * @param city
+   * @return
+   */
+  public boolean registerBasic(String openID, String session, String rdSession,
+      String nickName, String country, String province, String city) {
+    String sql = "insert into teacher(openID,session,rdSession,nickName,"
+        + "country,province,city) values('" + openID + "', '" + session + "', '"
+        + rdSession + "', '" + nickName + "', '" + country + "', '" + province
+        + "', '" + city + "');";
+    try {
+      System.out.println(sql);
+      db.execute(sql);
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      // Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE,
+      // null, ex);
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Bywtj注册老师进阶信息，需要用户填写的那些信息，也就是学校，联系电话等等四个信息。
+   * @param subject
+   * @param phoneNumber
+   * @param email
+   * @param school
+   * @return 
+   */
+  public boolean registerFillIn(String teacherID, String subject,
+      String phoneNumber, String email, String school) {
+    String sql = "update teacher set d='" + subject + "',phoneNumber='"
+        + phoneNumber + "',email='" + email + "',school='" + school
+        + "' where teacherID=" + teacherID + ";";
     try {
       db.execute(sql);
     } catch (SQLException ex) {
